@@ -1,0 +1,182 @@
+# Example YAML to get you started quickly.
+# Be aware that YAML has indentation based scoping.
+# Code completion support is available so start typing for available options.
+swagger: '2.0'
+
+# This is your document metadata
+info:
+  version: "1.0.0"
+  title: WSO2 API Manager Analytics Rest API
+  description: |
+        This API contains all the rest endpoints for WSO2 APIM analytics.
+
+# Describe your paths here
+paths:
+  # This is a path endpoint. Change it.
+  /topAPIUsers:
+    # This is a HTTP operation
+    get:
+      # Describe this verb here. Note: you can use markdown
+      description: |
+        The getTopApiUsers endpoint returns statistics about the top API users for each API.
+      # This is array of GET operation parameters:
+      parameters:
+        # An example parameter that is in query and is required
+        - name: apiName
+          in: query
+          description: Selected API name
+          required: true
+          type: string
+        - name: version
+          in: query
+          description: Selected API version
+          required: false
+          type: string
+        - name: fromDate
+          in: query
+          description: Selected from date
+          required: true
+          type: string
+          format: dateTime
+        - name: toDate
+          in: query
+          description: Selected to date
+          required: true
+          type: string
+          format: dateTime
+        - name: apiFilter
+          in: query
+          description: Filter APIs (All APIs,My APIs)
+          required: true
+          type: string
+        - name: start
+          in: query
+          description: starting position of data range
+          required: true
+          type: integer
+          format: int32
+        - name: limit
+          in: query
+          description: No of records needed
+          required: true
+          type: integer
+          format: int32
+        - name: orderBy
+          in: query
+          description: order by column name
+          required: true
+          type: string
+        - name: orderByOrder
+          in: query
+          description: order by order
+          required: true
+          type: string
+      responses:
+        200:
+          description: Top API Users for the requested API
+          schema:
+            $ref: '#/definitions/TopApiUsers'
+        "500":
+          description: Internal Server Error
+  /apiLastAccessTimes:
+    # This is a HTTP operation
+    get:
+      # Describe this verb here. Note: you can use markdown
+      description: |
+        The getTopApiUsers endpoint returns statistics about the top API users for each API.
+      # This is array of GET operation parameters:
+      parameters:
+        # An example parameter that is in query and is required
+        - name: fromDate
+          in: query
+          description: Selected from date
+          required: true
+          type: string
+          format: dateTime
+        - name: toDate
+          in: query
+          description: Selected to date
+          required: true
+          type: string
+          format: dateTime
+        - name: apiFilter
+          in: query
+          description: Filter APIs (All APIs,My APIs)
+          required: true
+          type: string
+        - name: start
+          in: query
+          description: starting position of data range
+          required: true
+          type: integer
+          format: int32
+        - name: limit
+          in: query
+          description: No of records needed
+          required: true
+          type: integer
+          format: int32
+        - name: orderBy
+          in: query
+          description: order by column name
+          required: true
+          type: string
+        - name: orderByOrder
+          in: query
+          description: order by order
+          required: true
+          type: string
+      responses:
+        200:
+          description: last access times for the API
+          schema:
+            $ref: '#/definitions/APILastAccessTimes'
+        "500":
+          description: Internal Server Error           
+definitions:
+  TopApiUserData:
+    type: object
+    properties:
+      user:
+        type: string
+        description: User of the API
+      requestCount:
+        type: string
+        description: Request count of the API  
+  TopApiUsers:
+    type: object
+    properties:
+      recordsTotal:
+        type: integer
+        format: int32
+        description: Total number of results available.
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/TopApiUserData'
+  APILastAccessTimesData:
+    type: object
+    properties:
+      apiName:
+        type: string
+        description: Name of the API
+      apiVersion:
+        type: string
+        description: Version of the API  
+      user:
+        type: string
+        description: User of the API
+      lastAccessTime:
+        type: string
+        description: Last access time of the API  
+  APILastAccessTimes:
+    type: object
+    properties:
+      recordsTotal:
+        type: integer
+        format: int32
+        description: Total number of results available.
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/APILastAccessTimesData'
